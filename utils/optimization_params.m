@@ -189,6 +189,14 @@ params.r_attach_B = [params.fixed.r_attach_front_B params.r_attach_rear_B];
 params.initial.r_attach_eq = [params.initial.r_attach_front_eq params.initial.r_attach_rear_eq];
 
 
+% compute extension spring unit directional vector, absolute length and
+% pure extension
+r = params.r_attach - params.fixed.r_anchor;
+params.le = vecnorm(r, 2, 1);
+params.u = r ./ vecnorm(r, 2, 1);
+params.e = params.le - params.fixed.ls_0;
+
+
 % compute wrench
 [params.W_out, l] = compute_wrench(params);
 
