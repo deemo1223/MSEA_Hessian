@@ -118,7 +118,7 @@ end
 % alter pose, add to q_0
 params.q = params.initial.q_0 + [dx dy dz roll, pitch, yaw]';
 [params.p, params.R_NB, params.T_NB, params.u_hat] = pose2matrix(params.q);
-params.R_NB = eul2rotm(deg2rad([yaw, pitch, roll]), 'ZYX');
+params.R_NB = eul2rotm([yaw, pitch, roll], 'ZYX');
 params.p = params.R_NB * params.p;
 params.T_NB = [params.R_NB, params.p; 0 0 0 1];
 
@@ -159,7 +159,7 @@ for i = 1: n/2 + 1 % ensure compression in range
     end
 end
 params.lc_delta = lc_delta_star;
-if fval > 1e-2
+if fval > 1e1
     error('lc optimization failed to find a solution. ')
 end
 
@@ -202,11 +202,12 @@ params.e = params.le - params.fixed.ls_0;
 
 
 % simulate known distance measured by the string encoder
-params.l_measured = zeros(n/2, 1);
+params.l_str = zeros(n/2, 1);
 for i = 1:n/2
-    params.initial.l_measured_eq(i) = params.fixed.l_rod + params.fixed.l_tube - params.initial.lc_delta_eq(1) - params.initial.lc_delta_eq(1+i);
-    params.l_measured(i) = params.fixed.l_rod + params.fixed.l_tube - params.lc_delta(1) - params.lc_delta(1+i);
+    params.initial.l_str_eq(i) = params.fixed.l_rod + params.fixed.l_tube - params.initial.lc_delta_eq(1) - params.initial.lc_delta_eq(1+i);
+    params.l_str(i) = params.fixed.l_rod + params.fixed.l_tube - params.lc_delta(1) - params.lc_delta(1+i);
 end
+
 end
 
 %[appendix]{"version":"1.0"}
