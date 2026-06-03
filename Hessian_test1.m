@@ -54,7 +54,7 @@ Kc(end-4:end, end-4:end) = diag([p.fixed.kc_front p.fixed.kc_rear]);
 HLi_sum = zeros(11, 11);
 for i = 1: n
     ei = p.e(i);
-    kei = p.fixed.ks(i);
+    kei = p.fixed.ke(i);
     Ji = J(:, :, i);
     HLi = HL(:, :, i);
 
@@ -76,25 +76,25 @@ Keff = Kqq - Kqs * (Kss \ Ksq);
 
 % test sensing
 % set evaluation point, use optimization again
-q_delta = [-0.002 -0.002 -0.002 deg2rad(3) 0 0]'; 
-q_eval = q_oper + q_delta %[output:118a6152]
+q_delta = [-0.002 -0.002 -0.002 deg2rad(0.1) deg2rad(0.1) deg2rad(0.1)]'; 
+q_eval = q_oper + q_delta %[output:26bf864c]
 p_eval = optimization_params(q_eval, configFile);
 
 % compare output wrench
-H_wrench = -Keff*q_delta + p.W_out %[output:624d671a]
-O_wrench = p_eval.W_out %[output:18829d3d]
+H_wrench = -Keff*q_delta + p.W_out %[output:821fb446]
+O_wrench = p_eval.W_out %[output:4d4cf3a6]
 
 % compare compression distance
 As = - Kss \ Ksq;
-H_s = As * q_delta + p.lc_delta' %[output:63fcffc4]
-O_s = p_eval.lc_delta %[output:3677850f]
+H_s = As * q_delta + p.s' %[output:9b45d45f]
+O_s = p_eval.s %[output:28bca07e]
 
 % get the current measured string length, compute delta
 l_str = p_eval.l_str;
-l_str_delta = l_str - p.l_str %[output:1d345037]
+l_str_delta = l_str - p.l_str
 
 % get the current measure IMU angle, compute delta
-theta = p_eval.q(4:6) %[output:2c4f6f5e]
+theta = p_eval.q(4:6)
 theta_delta = theta - p.q(4:6);
 
 % define Cs and Jstr matrix
@@ -112,35 +112,26 @@ A_aug = [Jstr_p; lambda * eye(m)];
 b = l_str_delta - Jstr_theta * theta_delta;
 b_aug = [b; zeros(m, 1)];
 
-x = A_aug \ b_aug %[output:8ee9db2d]
+x = A_aug \ b_aug
 
 
 %[appendix]{"version":"1.0"}
 %---
 %[metadata:view]
-%   data: {"layout":"onright","rightPanelPercent":36.8}
+%   data: {"layout":"onright","rightPanelPercent":45.3}
 %---
-%[output:118a6152]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"q_eval","rows":6,"type":"double","value":[["-0.0100"],["-0.0020"],["-0.0020"],["0.0524"],["0"],["0"]]}}
+%[output:26bf864c]
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"q_eval","rows":6,"type":"double","value":[["-0.0100"],["-0.0020"],["-0.0020"],["0.0017"],["0.0017"],["0.0017"]]}}
 %---
-%[output:624d671a]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"H_wrench","rows":6,"type":"double","value":[["26.3808"],["5.0646"],["12.8122"],["-0.0518"],["2.4814"],["-1.0450"]]}}
+%[output:821fb446]
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"H_wrench","rows":6,"type":"double","value":[["26.3808"],["5.9766"],["10.6468"],["-0.0017"],["1.9268"],["-1.2827"]]}}
 %---
-%[output:18829d3d]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"O_wrench","rows":6,"type":"double","value":[["27.0780"],["4.8493"],["13.5687"],["-0.3643"],["2.5150"],["-0.9845"]]}}
+%[output:4d4cf3a6]
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"O_wrench","rows":6,"type":"double","value":[["27.1217"],["5.9420"],["10.7704"],["-0.0201"],["1.9190"],["-1.2165"]]}}
 %---
-%[output:63fcffc4]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"H_s","rows":5,"type":"double","value":[["0.0333"],["0.0343"],["0.0343"],["0.0326"],["0.0326"]]}}
+%[output:9b45d45f]
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"H_s","rows":5,"type":"double","value":[["0.0333"],["0.0345"],["0.0340"],["0.0323"],["0.0328"]]}}
 %---
-%[output:3677850f]
-%   data: {"dataType":"matrix","outputData":{"columns":5,"name":"O_s","rows":1,"type":"double","value":[["0.0332","0.0340","0.0341","0.0324","0.0322"]]}}
-%---
-%[output:1d345037]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"l_str_delta","rows":4,"type":"double","value":[["-0.0021"],["-0.0022"],["-0.0005"],["-0.0004"]]}}
-%---
-%[output:2c4f6f5e]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"theta","rows":3,"type":"double","value":[["0.0524"],["0"],["0"]]}}
-%---
-%[output:8ee9db2d]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"x","rows":3,"type":"double","value":[["-0.0015"],["-0.0019"],["-0.0021"]]}}
+%[output:28bca07e]
+%   data: {"dataType":"matrix","outputData":{"columns":5,"name":"O_s","rows":1,"type":"double","value":[["0.0331","0.0343","0.0337","0.0320","0.0326"]]}}
 %---

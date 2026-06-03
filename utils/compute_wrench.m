@@ -2,8 +2,8 @@ function [wrench, l] = compute_wrench(params)
 
 % extract variables
 n = params.fixed.n;
-ks = params.fixed.ks;
-ls_0 = params.fixed.ls_0;
+ks = params.fixed.ke;
+ls_0 = params.fixed.le_0;
 r_anchor = params.fixed.r_anchor;
 r_attach = params.r_attach;
 r_attach_B = params.r_attach_B;
