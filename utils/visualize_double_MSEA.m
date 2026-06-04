@@ -7,7 +7,7 @@ r_tube = params.fixed.r_tube;
 l_tube = params.fixed.l_tube;
 l_rod = params.fixed.l_rod;
 lc = params.lc;
-lc_delta = params.lc_delta;
+s = params.s;
 u_hat = params.u_hat;
 r_anchor = params.fixed.r_anchor;
 r_attach = params.r_attach;
@@ -18,7 +18,7 @@ slackIdx = params.slackIdx;
 % extract initial variables
 if nargin >= 2 && strcmp(options, 'initial')
     lc = params.initial.lc_eq;
-    lc_delta = params.initial.lc_delta_eq;
+    s = params.initial.s_eq;
     u_hat = params.initial.u_hat0;
     r_attach = params.initial.r_attach_eq;
     r_attach_front = params.initial.r_attach_front_eq;
@@ -77,9 +77,9 @@ end
 r_attach_center_front = mean(r_attach_front, 2);  % take mean across columns
 
 % plot the tube 
-[Xr, Yr, Zr] = create_cylinder(r_attach_center_front, l_tube-lc_delta(1), r_tube, -u_hat);
+[Xr, Yr, Zr] = create_cylinder(r_attach_center_front, l_tube-s(1), r_tube, -u_hat);
 surf(Xr, Yr, Zr, 'FaceColor', [0.3 0.8 0.3], 'EdgeColor', 'none');
-[Xr, Yr, Zr] = create_cylinder(r_attach_center_front, lc_delta(1), r_tube, u_hat);
+[Xr, Yr, Zr] = create_cylinder(r_attach_center_front, s(1), r_tube, u_hat);
 surf(Xr, Yr, Zr, 'FaceColor', [0.3 0.8 0.3], 'EdgeColor', 'none');
 
 % plot the rod
