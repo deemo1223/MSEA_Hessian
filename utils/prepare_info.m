@@ -125,19 +125,27 @@ if isempty(ext)
 end
 
 % 如果文件不存在：创建文件并写入表头
-% 如果文件已存在：检查 point_index，避免重复写入
+% 如果文件已存在：
+%   1. 若 point_index 已存在，覆盖对应行
+%   2. 若 point_index 不存在，追加到下一行
+
 if ~isfile(filename)
     writetable(T, filename);
 else
-
     T_existing = readtable(filename);
-    if any(T_existing.point_index == point_index)
-        return;
+
+    row_id = find(T_existing.point_index == point_index, 1);
+
+    if isempty(row_id)
+        % point_index 不存在，追加新行
+        T_existing = [T_existing; T];
+    else
+        % point_index 已存在，覆盖对应行
+        T_existing(row_id, :) = T;
     end
 
-    writetable(T, filename, ...
-        'WriteMode', 'append', ...
-        'WriteVariableNames', false);
+    % 重新写入整个表格
+    writetable(T_existing, filename);
 end
     
 
