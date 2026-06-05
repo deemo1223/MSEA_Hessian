@@ -44,7 +44,7 @@ p_eval= point_eval.q(1:3) %[output:1fcc02e3]
 %[appendix]{"version":"1.0"}
 %---
 %[metadata:view]
-%   data: {"layout":"onright","rightPanelPercent":41}
+%   data: {"layout":"onright","rightPanelPercent":59.1}
 %---
 %[output:9dff0306]
 %   data: {"dataType":"matrix","outputData":{"columns":1,"name":"W_star","rows":6,"type":"double","value":[["29.4559"],["-19.9158"],["75.0591"],["-0.0443"],["13.5541"],["4.0186"]]}}
