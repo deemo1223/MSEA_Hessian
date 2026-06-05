@@ -22,7 +22,7 @@ referenceFile = 'reference_info.csv';
 prepare_info(referenceFile, params_oper, index);
 
 % define delta coordinate, set resultant evaluating point
-q_delta = [-0.001 -0.001 0.001 0.001 -0.001 0.001]'; 
+q_delta = [0.001 -0.002 0.003 0.01 -0.01 0.01]'; 
 q_eval = q_oper + q_delta;
 
 % use optimization to compute evaluating point states
@@ -54,7 +54,7 @@ p_eval= params_eval.q(1:3) %[output:7ccf35eb]
 %[appendix]{"version":"1.0"}
 %---
 %[metadata:view]
-%   data: {"layout":"onright","rightPanelPercent":34.7}
+%   data: {"layout":"onright","rightPanelPercent":51.1}
 %---
 %[output:7c7d100b]
 %   data: {"dataType":"textualVariable","outputData":{"name":"errorFlag","value":"0"}}
@@ -69,14 +69,14 @@ p_eval= params_eval.q(1:3) %[output:7ccf35eb]
 %   data: {"dataType":"matrix","outputData":{"columns":1,"name":"p_oper","rows":3,"type":"double","value":[["0.1822"],["0.0200"],["-0.0100"]]}}
 %---
 %[output:2f4c8f46]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"W_star","rows":6,"type":"double","value":[["71.0649"],["-2.3572"],["0.0872"],["-0.1505"],["-1.4074"],["0.8820"]]}}
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"W_star","rows":6,"type":"double","value":[["67.3084"],["6.3288"],["1.1485"],["-0.3390"],["-0.6179"],["-1.2254"]]}}
 %---
 %[output:3c1beb1a]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"p_star","rows":3,"type":"double","value":[["0.1814"],["0.0190"],["-0.0091"]]}}
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"p_star","rows":3,"type":"double","value":[["0.1832"],["0.0174"],["-0.0074"]]}}
 %---
 %[output:5506ccb6]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"W_eval","rows":6,"type":"double","value":[["71.6500"],["-2.4239"],["-0.4943"],["-0.1421"],["-1.4996"],["0.9511"]]}}
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"W_eval","rows":6,"type":"double","value":[["67.4759"],["4.4850"],["-3.3173"],["-0.2299"],["-1.8293"],["-0.5124"]]}}
 %---
 %[output:7ccf35eb]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"p_eval","rows":3,"type":"double","value":[["0.1812"],["0.0190"],["-0.0090"]]}}
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"p_eval","rows":3,"type":"double","value":[["0.1832"],["0.0180"],["-0.0070"]]}}
 %---

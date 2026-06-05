@@ -20,6 +20,8 @@ for i = 1 : n/2
         %error('Extension spring with idx %d is slack.', i);
         params.Fs_front = params.Fs_front;
         params.slackIdx(i) = 1;
+        error_flag = 1;
+        return
     elseif lei > params.fixed.le_range(2, i)
         %error('Extension spring with idx %d is overstretched.', i);
         error_flag = 1;
@@ -70,6 +72,8 @@ for i = n/2+1 : n
         %error('Extension spring with idx %d is slack.', i);
         params.Fs_rear = params.Fs_rear;
         params.slackIdx(i) = 1;
+        error_flag = 1;
+        return
     elseif lei > params.fixed.le_range(2, i)
         %error('Extension spring with idx %d is overstretched.', i);
         error_flag = 1;
