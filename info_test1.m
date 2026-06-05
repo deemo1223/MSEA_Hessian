@@ -8,10 +8,6 @@ q_oper = [0 0 0 0 0 0]'; % set operating point
 p = optimization_params(q_oper, configFile);
 n = p.fixed.n;  % no. of extension springs
 
-folder = fullfile(pwd, 'reference_info');
-if ~exist(folder, 'dir')
-    mkdir(folder);
-end
 
 index = 0 %[output:0b2091c1]
 prepare_info(p, index)

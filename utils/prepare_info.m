@@ -1,4 +1,4 @@
-function prepare_info(p, point_index)
+function prepare_info(filename, p, point_index)
 
 % in real impelementation, l_str, theta should come from sensor output
 % directly
@@ -113,20 +113,33 @@ for i = 1:6
     end
 end
 
-% ---------- generate filename ----------
-folder = fullfile(pwd, 'reference_info');
 
-if ~exist(folder, 'dir')
-    mkdir(folder);
-end
-
-filename = fullfile(folder, sprintf('point_%d.csv', point_index));
 
 % ---------- write to CSV ----------
 T = array2table(row, 'VariableNames', names);
-writetable(T, filename);
 
+% add .csv to filename if needed
+[~, ~, ext] = fileparts(filename);
+if isempty(ext)
+    filename = [char(filename), '.csv'];
+end
 
+% 如果文件不存在：创建文件并写入表头
+% 如果文件已存在：检查 point_index，避免重复写入
+if ~isfile(filename)
+    writetable(T, filename);
+else
+
+    T_existing = readtable(filename);
+    if any(T_existing.point_index == point_index)
+        return;
+    end
+
+    writetable(T, filename, ...
+        'WriteMode', 'append', ...
+        'WriteVariableNames', false);
+end
+    
 
 %[appendix]{"version":"1.0"}
 %---

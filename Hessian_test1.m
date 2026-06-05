@@ -4,7 +4,7 @@ addpath('utils/')
 
 % use optimization to get ground truth
 configFile = "config.json";
-q_oper = [-0.04 0.01 0.01 0 0 0]'; % set operating point
+q_oper = [-0.0 0.0 0.0 0 0 0]'; % set operating point
 point_oper = optimization_params(q_oper, configFile);
 n = point_oper.fixed.n;  % no. of extension springs
 
@@ -71,8 +71,8 @@ Ksq = H(end-4:end, 1:6);
 
 
 % calcualte Keff
-Keff = Kqq - Kqs * (Kss \ Ksq);
-As = - Kss \ Ksq;
+Keff = Kqq - Kqs * (Kss \ Ksq) %[output:4858b3f9]
+As = - Kss \ Ksq %[output:4b92167f]
 
 
 % test sensing
@@ -90,7 +90,7 @@ point_eval = optimization_params(q_eval, configFile);
 
 % get the current measured string length, compute delta
 l_str = point_eval.l_str;
-l_str_delta = l_str - point_oper.l_str %[output:4858b3f9]
+l_str_delta = l_str - point_oper.l_str %[output:0a8f5f9c]
 
 % get the current measure IMU angle, compute delta
 theta = point_eval.q(4:6);
@@ -114,42 +114,48 @@ b_aug = [b; zeros(m, 1)];
 p_delta_star = A_aug \ b_aug;  % LS
 
 % compare displacement
-p_star = point_oper.q(1:3) + p_delta_star %[output:4b92167f]
-p_operating = point_oper.q(1:3) %[output:0a8f5f9c]
-p_evaluating = point_eval.q(1:3) %[output:0c7728b0]
+p_star = point_oper.q(1:3) + p_delta_star %[output:0c7728b0]
+p_operating = point_oper.q(1:3) %[output:7a6c074d]
+p_evaluating = point_eval.q(1:3) %[output:3ab2ec52]
 
 % compute and compare output wrench 
 q_delta_star = [p_delta_star ; theta_delta];
 W_delta_star = -Keff*q_delta_star;
 W_operating = point_oper.W_out;
-W_star = W_operating + W_delta_star %[output:7a6c074d]
+W_star = W_operating + W_delta_star %[output:444c4440]
 
-W_operating = point_oper.W_out %[output:3ab2ec52]
-W_evaluating = point_eval.W_out %[output:444c4440]
+W_operating = point_oper.W_out %[output:66fbe8f9]
+W_evaluating = point_eval.W_out %[output:34420747]
 
 %[appendix]{"version":"1.0"}
 %---
 %[metadata:view]
-%   data: {"layout":"onright","rightPanelPercent":33.7}
+%   data: {"layout":"onright","rightPanelPercent":59.2}
 %---
 %[output:4858b3f9]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"l_str_delta","rows":4,"type":"double","value":[["-0.0001"],["-0.0017"],["-0.0011"],["0.0002"]]}}
+%   data: {"dataType":"matrix","outputData":{"columns":6,"exponent":"3","name":"Keff","rows":6,"type":"double","value":[["2.2828","-0.0000","-0.0000","-0.0000","-0.0000","0.0000"],["-0.0000","2.5717","0.0000","-0.0000","0.0000","-0.5273"],["-0.0000","0.0000","6.3418","0.0000","1.2523","-0.0000"],["-0.0000","-0.0000","0.0000","0.0010","0.0000","0.0000"],["-0.0000","0.0000","1.2523","0.0000","0.3282","-0.0000"],["0.0000","-0.5273","-0.0000","0.0000","-0.0000","0.1382"]]}}
 %---
 %[output:4b92167f]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"p_star","rows":3,"type":"double","value":[["0.1711"],["0.0119"],["0.0071"]]}}
+%   data: {"dataType":"matrix","outputData":{"columns":6,"name":"As","rows":5,"type":"double","value":[["-0.4459","-0.0000","0","0.0000","0","0.0000"],["-0.4459","-0.4333","0","0","0","0.1477"],["-0.4459","-0.0000","-0.4333","0.0000","-0.1477","0.0000"],["-0.4459","0.4333","-0.0000","-0.0000","-0.0000","-0.1477"],["-0.4459","0.0000","0.4333","-0.0000","0.1477","-0.0000"]]}}
 %---
 %[output:0a8f5f9c]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"p_operating","rows":3,"type":"double","value":[["0.1722"],["0.0100"],["0.0100"]]}}
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"l_str_delta","rows":4,"type":"double","value":[["-0.0001"],["-0.0016"],["-0.0012"],["0.0004"]]}}
 %---
 %[output:0c7728b0]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"p_evaluating","rows":3,"type":"double","value":[["0.1712"],["0.0120"],["0.0070"]]}}
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"p_star","rows":3,"type":"double","value":[["0.2115"],["0.0019"],["-0.0029"]]}}
 %---
 %[output:7a6c074d]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"W_star","rows":6,"type":"double","value":[["93.7822"],["-27.8765"],["-50.1779"],["-0.0658"],["-8.6280"],["5.6969"]]}}
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"p_operating","rows":3,"type":"double","value":[["0.2122"],["0"],["0"]]}}
 %---
 %[output:3ab2ec52]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"W_operating","rows":6,"type":"double","value":[["91.9286"],["-24.1113"],["-67.1789"],["-0.0712"],["-11.5864"],["4.9473"]]}}
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"p_evaluating","rows":3,"type":"double","value":[["0.2112"],["0.0020"],["-0.0030"]]}}
 %---
 %[output:444c4440]
-%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"W_evaluating","rows":6,"type":"double","value":[["93.1619"],["-27.7517"],["-49.1309"],["-0.0469"],["-8.4889"],["5.7466"]]}}
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"W_star","rows":6,"type":"double","value":[["1.5664"],["-3.9394"],["16.1201"],["-0.0018"],["3.0419"],["0.7552"]]}}
+%---
+%[output:66fbe8f9]
+%   data: {"dataType":"matrix","outputData":{"columns":1,"exponent":"-4","name":"W_operating","rows":6,"type":"double","value":[["0.2081"],["0"],["0"],["0"],["0"],["0"]]}}
+%---
+%[output:34420747]
+%   data: {"dataType":"matrix","outputData":{"columns":1,"name":"W_evaluating","rows":6,"type":"double","value":[["2.8668"],["-4.2261"],["16.9401"],["-0.0139"],["3.1232"],["0.8323"]]}}
 %---
