@@ -16,12 +16,12 @@ for i = 1 : n/2
     r  = params.fixed.r_anchor(:, i) - params.r_attach_front(:, i);   % 3x1
     lei = norm(r);
     params.le(i) = lei;
-    if lei < params.fixed.le_range(1, i)  % ensure extension in range
+    if lei <= params.fixed.le_range(1, i)  % ensure extension in range
         %error('Extension spring with idx %d is slack.', i);
         params.Fs_front = params.Fs_front;
         params.slackIdx(i) = 1;
-        error_flag = 1;
-        return
+        % error_flag = 1;
+        % return
     elseif lei > params.fixed.le_range(2, i)
         %error('Extension spring with idx %d is overstretched.', i);
         error_flag = 1;
@@ -68,12 +68,12 @@ for i = n/2+1 : n
     r  = params.fixed.r_anchor(:, i) - params.r_attach_rear(:, i-n/2);   % 3x1
     lei = norm(r);
     params.le(i) = lei;
-    if lei < params.fixed.le_range(1, i)  % ensure extension in range
+    if lei <= params.fixed.le_range(1, i)  % ensure extension in range
         %error('Extension spring with idx %d is slack.', i);
         params.Fs_rear = params.Fs_rear;
         params.slackIdx(i) = 1;
-        error_flag = 1;
-        return
+        % error_flag = 1;
+        % return
     elseif lei > params.fixed.le_range(2, i)
         %error('Extension spring with idx %d is overstretched.', i);
         error_flag = 1;
@@ -91,7 +91,7 @@ params.initial.r_attach_eq = [params.initial.r_attach_front_eq params.initial.r_
 
 % compute extension spring unit directional vector, absolute length and
 % pure extension
-r = params.r_attach - params.fixed.r_anchor;
+r = params.fixed.r_anchor - params.r_attach;
 params.le = vecnorm(r, 2, 1);
 params.u = r ./ vecnorm(r, 2, 1);
 params.e = params.le - params.fixed.le_0;
