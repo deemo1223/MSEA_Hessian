@@ -60,5 +60,7 @@ wrench = A * p;
 % remove tiny elements
 wrench(abs(wrench) < 1e-5) = 0;
 
+end
+
 %[appendix]{"version":"1.0"}
 %---

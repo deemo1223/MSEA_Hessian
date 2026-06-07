@@ -18,16 +18,20 @@ f = 0;
 [~, r_attach_rear] = get_r_attach_rear(params, lc_delta, T_NB);
 
 % compute idx Fs_rear
-Fs_rear = zeros(3,1);
 for idx = n/2+1:n
     local_idx = idx - n/2;
 
     r = r_anchor(:, idx) - r_attach_rear(:, local_idx);
     lei = norm(r);
     ui = r / lei;
+    ei = lei - le_0(idx);
 
-    Fs_rear_idx = ke(idx) * (lei - le_0(idx)) * ui;
-    Fs_rear = Fs_rear + Fs_rear_idx;
+    % extension only spring
+    if ei <= 0
+        Fs_rear_idx = zeros(3,1);
+    else
+        Fs_rear_idx = ke(idx) * ei * ui;
+    end
     
     % force balance cost between idx Fs_rear and Fc_rear
     f = f + (kc_rear(local_idx) * lc_delta(local_idx+1) - u_hat.' * Fs_rear_idx )^2;
